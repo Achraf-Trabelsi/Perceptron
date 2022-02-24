@@ -2,16 +2,34 @@
 from sklearn import datasets 
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.model_selection import train_test_split
+import random as r
 
-X, y = datasets.make_blobs (n_samples=150, n_features=2, centers=2, 
-cluster_std=1.05, random_state=2) 
-#Plotting 
+
+#Generating Data 
+#fixing the mean and cov values
+mu1,mu2=[-1,0],[1,0]
+sigma1=float(input("ENTER THE 1st COV VALUE "))
+sigma2=float(input("ENTER THE 2nd 1COV VALUE "))
+#Generating half by half
+X1,y1=datasets.make_gaussian_quantiles(mean=mu1,cov=sigma1,n_samples=125,n_features=2,n_classes=1)
+X2,y2=datasets.make_gaussian_quantiles(mean=mu2,cov=sigma2,n_samples=125,n_features=2,n_classes=1)
+y1=np.ones(shape=(125,))
+y2=-y1
+#linking the dataset and target 
+X=np.concatenate((X1,X2),axis=0)
+y=np.concatenate((y1,y2),axis=0)
+#plotting the distribution
 fig = plt.figure(figsize=(10,8)) 
-plt.plot(X[:, 0][y == 0], X[:, 1][y == 0], 'r^') 
+plt.plot(X[:, 0][y == -1], X[:, 1][y ==-1], 'r^') 
 plt.plot(X[:, 0][y == 1], X[:, 1][y == 1], 'bs') 
 plt.xlabel("feature 1") 
 plt.ylabel("feature 2")
 plt.title('Random Classification Data with 2 classes')
+plt.show()
+#creating a test and train split
+x_train,y_train,x_test,y_test=train_test_split(X,y,test_size=0.2,shuffle=True)
+
 
 
 def acti_func(z):
@@ -51,20 +69,5 @@ def perceptron(X, y, lr, epochs):
           # at every iteration.
       n_miss_list.append(n_miss) 
     return w, n_miss_list
-
-def plot_decision_boundary(X, w): 
-# X --> Inputs 
-# w --> parameters 
-# The Line is y=mx+c
-# So, Equate mx+c = w0.X0 + w1.X1 + w2.X2
-# Solving we find m and c 
- x1 = [min(X[:,0]), max(X[:,0])] 
- m = -w[1]/w[2]
- c = -w[0]/w[2]
- x2 = m*x1 + c
-# Plotting
- plt.plot(x1,x2)
- plt.show()
-w,miss=perceptron(X,y,0.1,10)
-print(perceptron(X,y,0.1,10))
-print(plot_decision_boundary(X,w))
+w,miss=perceptron(X,y,0.1,100)
+print(w)

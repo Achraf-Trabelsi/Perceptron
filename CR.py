@@ -2,8 +2,9 @@
 from sklearn import datasets 
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
-import random as r
+
 
 
 #Generating Data 
@@ -26,7 +27,7 @@ plt.plot(X[:, 0][y == 1], X[:, 1][y == 1], 'bs')
 plt.xlabel("feature 1") 
 plt.ylabel("feature 2")
 plt.title('Random Classification Data with 2 classes')
-plt.show()
+#plt.show()
 #creating a test and train split
 x_train,y_train,x_test,y_test=train_test_split(X,y,test_size=0.2,shuffle=True)
 
@@ -69,5 +70,20 @@ def perceptron(X, y, lr, epochs):
           # at every iteration.
       n_miss_list.append(n_miss) 
     return w, n_miss_list
+def plot_decision_boundary(X, w): 
+# X --> Inputs 
+# w --> parameters 
+# The Line is y=mx+c
+# So, Equate mx+c = w0.X0 + w1.X1 + w2.X2
+# Solving we find m and c 
+ x1 = [min(X[:,0]), max(X[:,0])] 
+ m = -w[1]/w[2]
+ c = -w[0]/w[2]
+ x2 = m*x1 + c
+# Plotting
+ plt.plot(x1,x2)
+ plt.show()
 w,miss=perceptron(X,y,0.1,100)
-print(w)
+print(w,miss)
+plot_decision_boundary(X,w)
+plt.show()

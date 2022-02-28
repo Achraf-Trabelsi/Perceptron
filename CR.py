@@ -27,15 +27,13 @@ plt.plot(X[:, 0][y == 1], X[:, 1][y == 1], 'bs')
 plt.xlabel("feature 1") 
 plt.ylabel("feature 2")
 plt.title('Random Classification Data with 2 classes')
-#plt.show()
+plt.show()
 #creating a test and train split
-x_train,y_train,x_test,y_test=train_test_split(X,y,test_size=0.2,shuffle=True)
-
-
+x_train,x_test,y_train,y_test=train_test_split(X,y,test_size=0.2,shuffle=True)
+print(x_train.shape,x_test.shape)
 
 def acti_func(z):
     return 1 if z>0 else 0
-
 def perceptron(X, y, lr, epochs): 
     # X --> Inputs. 
     # y --> labels/target. 
@@ -83,7 +81,9 @@ def plot_decision_boundary(X, w):
 # Plotting
  plt.plot(x1,x2)
  plt.show()
-w,miss=perceptron(X,y,0.1,100)
+w,miss=perceptron(x_train,y_train,0.1,100)
 print(w,miss)
-plot_decision_boundary(X,w)
+plot_decision_boundary(x_test,w)
+plt.plot(x_train[:, 0][y_train == -1], x_train[:, 1][y_train==-1], 'r^') 
+plt.plot(x_train[:, 0][y_train == 1], x_train[:, 1][y_train == 1], 'bs') 
 plt.show()

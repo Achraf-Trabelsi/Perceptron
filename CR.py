@@ -1,8 +1,8 @@
 
+from re import S
 from sklearn import datasets 
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
 
@@ -80,10 +80,20 @@ def plot_decision_boundary(X, w):
  x2 = m*x1 + c
 # Plotting
  plt.plot(x1,x2)
- plt.show()
+ #plt.show()
+#Training the model with the perceptron
 w,miss=perceptron(x_train,y_train,0.1,100)
 print(w,miss)
-plot_decision_boundary(x_test,w)
+#Ploting the decision boundry
+plot_decision_boundary(x_train,w)
 plt.plot(x_train[:, 0][y_train == -1], x_train[:, 1][y_train==-1], 'r^') 
 plt.plot(x_train[:, 0][y_train == 1], x_train[:, 1][y_train == 1], 'bs') 
 plt.show()
+#Testing the model
+plot_decision_boundary(x_test,w)
+plt.plot(x_test[:, 0][y_test == -1], x_test[:, 1][y_test==-1], 'r^') 
+plt.plot(x_test[:, 0][y_test == 1], x_test[:, 1][y_test == 1], 'bs') 
+plt.show()
+#Computing the accuracy of the model
+print("the accuracy of the model on the train set: ",(miss[len(miss)-1]/200)*100)
+

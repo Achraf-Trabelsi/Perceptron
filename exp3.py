@@ -76,23 +76,24 @@ for s in sigma:
     #Ploting the decision boundry
     plt.plot(x_train[:, 0][y_train == -1], x_train[:, 1][y_train==-1], 'r^') 
     plt.plot(x_train[:, 0][y_train == 1], x_train[:, 1][y_train == 1], 'bs') 
-    plot_decision_boundary(x_train,w)
+    #plot_decision_boundary(x_train,w)
     plt.ylim([ min(x_train[:, 1]), max(x_train[:, 1]) ])
     plt.show()
 
     #Testing the model
     plt.plot(x_test[:, 0][y_test == -1], x_test[:, 1][y_test==-1], 'r^') 
     plt.plot(x_test[:, 0][y_test == 1], x_test[:, 1][y_test == 1], 'bs') 
-    plot_decision_boundary(x_test,w)
+    #plot_decision_boundary(x_test,w)
     plt.ylim([ min(x_train[:, 1]), max(x_train[:, 1]) ])
     plt.show()
 
     #Computing the accuracy of the model
     print("the accuracy of the model on the test set: ",(1-(miss[len(miss)-1]/200))*100)
-    err=miss[len(miss)-1]/200
+    err=(miss[len(miss)-1]/200)*100
     
     err_tab.append(err)
 print(err_tab)
+print("la moyenne est =",np.mean(err_tab),"la varaince est",np.var(err_tab))
 errorbar(sig,err_tab, marker='s', mfc='red',
          mec='green', ms=10, mew=2)
 plt.show()

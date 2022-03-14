@@ -1,5 +1,4 @@
 
-from re import S
 from sklearn import datasets 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -10,8 +9,8 @@ from sklearn.model_selection import train_test_split
 #Generating Data 
 #fixing the mean and cov values
 mu1,mu2=[-1,0],[1,0]
-sigma1=float(input("ENTER THE 1st COV VALUE "))
-sigma2=float(input("ENTER THE 2nd 1COV VALUE "))
+sigma1=0.75
+sigma2=0.75
 #Generating half by half
 X1,y1=datasets.make_gaussian_quantiles(mean=mu1,cov=sigma1,n_samples=125,n_features=2,n_classes=1)
 X2,y2=datasets.make_gaussian_quantiles(mean=mu2,cov=sigma2,n_samples=125,n_features=2,n_classes=1)
@@ -26,14 +25,14 @@ plt.plot(X[:, 0][y == -1], X[:, 1][y ==-1], 'r^')
 plt.plot(X[:, 0][y == 1], X[:, 1][y == 1], 'bs') 
 plt.xlabel("feature 1") 
 plt.ylabel("feature 2")
-plt.title('Random Classification Data with 2 classes')
+plt.title('Gaussien Classification Data with 2 classes')
 plt.show()
 #creating a test and train split
 x_train,x_test,y_train,y_test=train_test_split(X,y,test_size=0.2,shuffle=True)
 print(x_train.shape,x_test.shape)
 
 def acti_func(z):
-    return 1 if z>0 else 0
+    return 1 if z>-0.5 else -1
 def perceptron(X, y, lr, epochs): 
     # X --> Inputs. 
     # y --> labels/target. 
@@ -80,20 +79,28 @@ def plot_decision_boundary(X, w):
  x2 = m*x1 + c
 # Plotting
  plt.plot(x1,x2)
- #plt.show()
+
 #Training the model with the perceptron
-w,miss=perceptron(x_train,y_train,0.1,100)
+
+w,miss=perceptron(x_train,y_train,0.1,200)
 print(w,miss)
+
 #Ploting the decision boundry
-plot_decision_boundary(x_train,w)
 plt.plot(x_train[:, 0][y_train == -1], x_train[:, 1][y_train==-1], 'r^') 
 plt.plot(x_train[:, 0][y_train == 1], x_train[:, 1][y_train == 1], 'bs') 
+plot_decision_boundary(x_train,w)
+plt.ylim([ min(x_train[:, 1]), max(x_train[:, 1]) ])
 plt.show()
+
 #Testing the model
-plot_decision_boundary(x_test,w)
 plt.plot(x_test[:, 0][y_test == -1], x_test[:, 1][y_test==-1], 'r^') 
 plt.plot(x_test[:, 0][y_test == 1], x_test[:, 1][y_test == 1], 'bs') 
+plot_decision_boundary(x_test,w)
+plt.ylim([ min(x_train[:, 1]), max(x_train[:, 1]) ])
 plt.show()
+
 #Computing the accuracy of the model
-print("the accuracy of the model on the train set: ",(miss[len(miss)-1]/200)*100)
+print("the accuracy of the model on the test set: ",(1-(miss[len(miss)-1]/200))*100)
+
+
 
